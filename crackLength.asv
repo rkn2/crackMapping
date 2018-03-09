@@ -30,30 +30,12 @@ gscatter(xx,yy,c) %will color the different groups but not by length
 %%
 figure;
 l = zeros(length(unique(c)),1);
-f = zeros(length(unique(c)),1);
-n = ceil(sqrt(length(unique(c))));
-for i = 1:length(unique(c))
-    subplot(n,n,i)
+for i = 1:1 % length(unique(c))
 % logical indexing, grabs the rows in xx and yy where c == i 
 thisCrack = [xx(c==i),yy(c==i)];
-thisCrackImg = zeros(max(thisCrack)-min(thisCrack)+1);
-imgID = thisCrack-min(thisCrack)+1;
-for j = 1:length(imgID)
-    thisCrackImg(imgID(j,1),imgID(j,2)) = 1;
-end
-bw = bwmorph(thisCrackImg,'skel',Inf);
-l(i) = sum(sum(bw));
-[nb, rb] = boxcount(bw);
-fd_fit = polyfit(log(nb),log(rb),1);
-f(i) = -fd_fit(1);
-imshow(bw);
-axis equal
-title(sprintf('%.0f / %.2f',l(i),f(i)))
-end
-%%
 % align the pixel values to a the predominant directions
 axRotation = pca(thisCrack);
-alignedMid = thisCrack * axRotation;
+alignedMid = this * axRotation;
 % scale and shift the pixels to a reference frame 
 delta = max(alignedMid) - min(alignedMid);
 axScale = min(1./delta);
